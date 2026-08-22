@@ -1,0 +1,25 @@
+{% extends "ordenes/base.html" %}
+{% block contenido %}
+<div class="row justify-content-center">
+<div class="col-lg-8">
+    <h2 class="mb-4">{{ titulo }}</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+        {% endif %}
+        {% for campo in form %}
+            <div class="mb-3">
+                <label class="form-label">{{ campo.label }}</label>
+                {{ campo }}
+                {% if campo.errors %}
+                    <div class="text-danger small mt-1">{{ campo.errors|striptags }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="{% url 'ordenes:lista' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+</div>
+{% endblock %}
