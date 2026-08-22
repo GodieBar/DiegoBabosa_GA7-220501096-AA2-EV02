@@ -1,0 +1,58 @@
+{% extends "ordenes/base.html" %}
+{% block contenido %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2>Órdenes de servicio</h2>
+        <p class="text-muted mb-0">Gestión del módulo TallerExpress</p>
+    </div>
+    <a href="{% url 'ordenes:crear' %}" class="btn btn-success">+ Nueva orden</a>
+</div>
+
+<div class="table-responsive">
+<table class="table table-striped table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th>N°</th>
+            <th>Cliente</th>
+            <th>Vehículo</th>
+            <th>Mecánico</th>
+            <th>Estado</th>
+            <th>Ingreso</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for orden in ordenes %}
+        <tr>
+            <td><strong>{{ orden.numero_orden }}</strong></td>
+            <td>{{ orden.cliente.nombre }}</td>
+            <td>{{ orden.vehiculo.placa }}</td>
+            <td>{{ orden.mecanico.nombre|default:"—" }}</td>
+            <td><span class="badge text-bg-secondary">{{ orden.get_estado_display }}</span></td>
+            <td>{{ orden.fecha_ingreso|date:"d/m/Y H:i" }}</td>
+            <td class="text-end">
+                <a href="{% url 'ordenes:editar' orden.pk %}" class="btn btn-sm btn-outline-primary">Editar</a>
+                <a href="{% url 'ordenes:eliminar' orden.pk %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="7" class="text-center text-muted py-4">No hay órdenes registradas.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% if ordenes.paginator.num_pages > 1 %}
+<nav aria-label="Paginación">
+<ul class="pagination justify-content-center">
+    {% if ordenes.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ ordenes.previous_page_number }}">« Anterior</a></li>
+    {% endif %}
+    <li class="page-item active"><span class="page-link">Página {{ ordenes.number }} de {{ ordenes.paginator.num_pages }}</span></li>
+    {% if ordenes.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ ordenes.next_page_number }}">Siguiente »</a></li>
+    {% endif %}
+</ul>
+</nav>
+{% endif %}
+{% endblock %}

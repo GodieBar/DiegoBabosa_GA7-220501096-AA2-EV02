@@ -1,0 +1,26 @@
+{% extends "ordenes/base.html" %}
+{% block contenido %}
+<div class="row justify-content-center">
+<div class="col-lg-6">
+    <div class="card border-danger">
+        <div class="card-header bg-danger text-white">
+            Confirmar eliminación
+        </div>
+        <div class="card-body">
+            <p>
+                ¿Está seguro de eliminar la orden
+                <strong>{{ orden.numero_orden }}</strong>
+                del cliente <strong>{{ orden.cliente.nombre }}</strong>
+                (vehículo {{ orden.vehiculo.placa }})?
+            </p>
+            <p class="text-danger small">Esta acción no se puede deshacer.</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                <a href="{% url 'ordenes:lista' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
