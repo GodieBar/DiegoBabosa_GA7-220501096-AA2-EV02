@@ -70,12 +70,15 @@ if os.getenv("DB_ENGINE", "sqlite") == "mysql":
     }
 else:
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'tallerexpress',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
-
+}
 AUTH_PASSWORD_VALIDATORS = []
 
 LANGUAGE_CODE = "es-co"
